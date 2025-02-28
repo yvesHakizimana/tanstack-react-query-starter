@@ -22,8 +22,8 @@ This project demonstrates how to use **React Query** for data fetching and mutat
 ### Steps
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-repo/react-query-crud.git
-   cd react-query-crud
+   git clone https://github.com/yvesHakizimana/tanstack-react-query-starter.git
+   cd tanstack-react-query-starter
    ```
 2. Install dependencies:
    ```sh
