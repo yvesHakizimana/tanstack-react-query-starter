@@ -1,54 +1,79 @@
-# React + TypeScript + Vite
+# React Query CRUD Example
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+This project demonstrates how to use **React Query** for data fetching and mutation in a React application. It includes functionality for fetching, creating, and caching posts using **React Query**.
 
-Currently, two official plugins are available:
+## Features
+- Fetch posts using `useQuery` from `@tanstack/react-query`.
+- Create new posts using `useMutation`.
+- Cache management and optimistic updates with `queryClient`.
+- TypeScript support for better type safety.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies Used
+- **React** (Frontend Framework)
+- **TypeScript** (Type Safety)
+- **React Query** (Data Fetching & Caching)
+- **JSONPlaceholder API** (Mock Backend for Posts)
 
-## Expanding the ESLint configuration
+## Installation & Setup
+### Prerequisites
+- Node.js & npm/yarn
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Steps
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-repo/react-query-crud.git
+   cd react-query-crud
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Start the application:
+   ```sh
+   npm run dev
+   ```
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## API Endpoints (Using JSONPlaceholder)
+### Fetch all posts
+```http
+GET https://jsonplaceholder.typicode.com/posts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Create a new post
+```http
+POST https://jsonplaceholder.typicode.com/posts
+Content-Type: application/json
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+{
+  "title": "New Post",
+  "body": "This is a new post."
+}
 ```
+
+## React Query Implementation
+### Fetching Posts
+```tsx
+const { data, isLoading, error } = useQuery({
+  queryKey: ['posts'],
+  queryFn: fetchPosts,
+  staleTime: 10000,
+});
+```
+
+### Creating a Post
+```tsx
+const { mutate } = useMutation({
+  mutationFn: createNewPost,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['posts'] });
+  },
+});
+```
+
+## Contributions
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## License
+This project is licensed under the MIT License.
+
